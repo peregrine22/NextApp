@@ -6,7 +6,7 @@ import styles from '../styles/Home.module.css'
 import { gql } from "@apollo/client";
 import client from "../apollo-client";
 
-const Home: NextPage = ({countries}) => { //todo: fix this issue
+const Home: NextPage = ({ repos }) => { //todo: fix this issue
   return (
     <div className={styles.container}>
       <Head>
@@ -19,12 +19,12 @@ const Home: NextPage = ({countries}) => { //todo: fix this issue
         <h1 className={styles.title}>
           Welcome to <a href="#">Next.js!</a>
         </h1>
-        
+
         <div className={styles.grid}>
-          {countries.map((country) => (
-            <div key={country.code} className={styles.card}>
+          {repos.map((repo) => (
+            <div key={repo.name} className={styles.card}>
               <p>
-                {country.code}
+                {repo.name}
               </p>
             </div>
           ))}
@@ -44,13 +44,28 @@ const Home: NextPage = ({countries}) => { //todo: fix this issue
 }
 
 export async function getStaticProps() {
+
+  // const { data } = await client.query({
+  //   query: gql`
+  //     query ExampleQuery {
+  //       countries {
+  //         code
+  //         name
+  //         emoji
+  //       }
+  //     }
+  //   `,
+  // });
+
   const { data } = await client.query({
     query: gql`
-      query ExampleQuery {
-        countries {
-          code
-          name
-          emoji
+      query AllRepos {
+        viewer {
+          repositories(affiliations: OWNER, first: 10) {
+            nodes {
+              name
+            }
+          }
         }
       }
     `,
@@ -58,7 +73,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      countries: data.countries.slice(0, 4),
+      repos: data.viewer.repositories.nodes.slice(0, 4),
     },
   };
 }
