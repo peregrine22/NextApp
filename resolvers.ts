@@ -6,7 +6,7 @@ import todoList from './db.json';
 
 export const resolvers = {
     Query: {
-        list: () => todoList.tasks,
+        tasks: () => todoList.tasks,
     },
     Mutation: {
         createTask(_: number, { text, day, reminder }: MutationCreateTaskArgs) {

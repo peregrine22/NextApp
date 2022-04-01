@@ -12,7 +12,7 @@ type Task {
 }
 
 type Query {
-  list: [Task]
+  tasks: [Task]
 }
 
 type Mutation {

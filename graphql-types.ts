@@ -10,12 +10,12 @@ export type Scalars = {
 export type List = {
     __typename?: 'List';
     id: Scalars['String'];
-    text: Scalars['String'];
+    title: Scalars['String'];
     tasks: Array<Task>;
 };
 
 export type ListTasksArgs = {
-    text: Scalars['String'];
+    title: Scalars['String'];
 };
 
 export type Task = {
@@ -28,7 +28,7 @@ export type Task = {
 
 export type Query = {
     __typename?: 'Query';
-    list: Array<Task>;
+    tasks: Array<Task>;
 };
 
 export type Mutation = {
