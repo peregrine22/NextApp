@@ -5,7 +5,7 @@ function TaskItem(props) {
     <div className={`task ${props.reminder ? 'reminder' : ''}`}>
       <h3>
         {props.text}
-        <FaTimes />
+        <FaTimes style={{cursor:"pointer"}}/>
       </h3>
       <p>{props.day}</p>
     </div>
