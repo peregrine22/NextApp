@@ -1,15 +1,16 @@
 import TaskItem from "./TaskItem"
 
-function TaskList(props) {
+function TaskList({ tasks, onDelete }) {
   return (
     <>
       {
-        props.tasks.map((task) => (
+        tasks.map((task) => (
           <TaskItem
             key={task.id}
             text={task.text}
             day={task.day}
             reminder={task.reminder}
+            onDelete={() => onDelete(task.id)}
           />
         ))
       }
