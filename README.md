@@ -14,6 +14,8 @@ Then, run the apollo server:
 npm run server-start
 ```
 
+If you see `🚀 Server ready at http://localhost:4000/graphql` in your terminal - everything went as planned and you can npw access your graph using this address
+
 Then, run the dev server
 
 ```bash
