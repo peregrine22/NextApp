@@ -1,8 +1,6 @@
-import Button from './Button';
 import PropTypes from 'prop-types'
 
-function Header({text}) {
-
+function Header({ text }) {
     return (
         <header className='header'>
             <h1>{text}</h1>

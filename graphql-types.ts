@@ -1,3 +1,5 @@
+import { Maybe } from "graphql/jsutils/Maybe";
+
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
     ID: string;
@@ -20,11 +22,16 @@ export type ListTasksArgs = {
 
 export type Task = {
     __typename?: 'Task';
-    id: Scalars['String'];
+    id: Scalars['Int'];
     text: Scalars['String'];
     day: Scalars['String'];
     reminder: Scalars['Boolean'];
 };
+
+export type AddTaskResult = {
+    success: Scalars['Boolean'];
+    task?: Maybe<Task>;
+}
 
 export type Query = {
     __typename?: 'Query';

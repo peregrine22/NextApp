@@ -14,9 +14,13 @@ type Task {
 type Query {
   tasks: [Task]
 }
+type AddTaskResult {
+  success: String!
+  task: Task
+}
 
 type Mutation {
-  createTask(text: String, day: String, reminder: Boolean): Task
+  createTask(text: String, day: String, reminder: Boolean): AddTaskResult
   updateTask(id: String!, text: String, day: String, reminder: Boolean): Task
   deleteTask(id: String!): String
 }

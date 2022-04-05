@@ -1,4 +1,4 @@
-import { MutationCreateTaskArgs, MutationDeleteTaskArgs } from "./graphql-types";
+import { MutationCreateTaskArgs, MutationDeleteTaskArgs, AddTaskResult } from "./graphql-types";
 
 import todoList from "./db.json";
 
@@ -7,15 +7,20 @@ export const resolvers = {
         tasks: () => todoList.tasks,
     },
     Mutation: {
-        createTask(_: any, { text, day, reminder }: MutationCreateTaskArgs) {
-            const task = {
-                id: Math.floor(Math.random() * 10000 + 1),
-                text,
-                day,
-                reminder,
-            };
-            todoList.tasks.push(task);
-            return task;
+        createTask(_: any, { text, day, reminder }: MutationCreateTaskArgs): AddTaskResult {
+            try {
+                const task = {
+                    id: Math.floor(Math.random() * 10000 + 1),
+                    text,
+                    day,
+                    reminder,
+                };
+                todoList.tasks.push(task);
+                return { success: true, task };
+            } catch (error) {
+                return { success: false };
+            }
+
         },
         deleteTask(_: any, { id }: MutationDeleteTaskArgs) {
             const idx = todoList.tasks.findIndex(i => i.id.toString() === id)

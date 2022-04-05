@@ -1,4 +1,3 @@
-import classes from './Button.module.css'
 import PropTypes from 'prop-types'
 
 function Button({ text, onClick }) {

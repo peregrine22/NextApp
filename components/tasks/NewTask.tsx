@@ -1,14 +1,8 @@
-import { gql, useMutation } from "@apollo/client";
-import { useState } from 'react';
+import { useMutation } from "@apollo/client";
+import { ADD_TASK } from '../../queries'
 
-const ADD_TASK = gql`
-  mutation Mutation($text: String, $day: String, $reminder: Boolean) {
-    createTask(text: $text, day: $day, reminder: $reminder) {
-      id
-      text
-    }
-  }
-`;
+import { useRouter } from "next/router";
+import { useState } from 'react';
 
 function NewTask() {
   const [taskText, setTaskText] = useState('');
@@ -16,19 +10,22 @@ function NewTask() {
   const [taskReminder, setTaskReminder] = useState(false);
   const [addTask, { data, loading, error }] = useMutation(ADD_TASK);
 
+  const router = useRouter();
+
   if (loading) return 'Loading...';
   if (error) return `Error ${error.message}`;
 
   return (
-    <form className="add-form" onSubmit={e => {
-      e.preventDefault();
+    <form className="add-form" onSubmit={event => {
+      event.preventDefault();
       addTask({
         variables: {
           text: taskText,
           day: taskDay,
           reminder: taskReminder
         }
-      })
+      });
+      router.push("/");
     }}>
       <div className="form-control">
         <label>Task</label>

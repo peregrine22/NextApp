@@ -1,5 +1,7 @@
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import client from "../apollo-client";
+import { GET_ALL_TASKS, DELETE_TASK } from '../queries'
+
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -10,6 +12,7 @@ import TaskList from "../components/tasks/TaskList";
 function HomePage(props) {
 
   const [tasks, setTask] = useState(props.tasks);
+  const [deleteTask] = useMutation(DELETE_TASK);
   console.log(tasks);
 
   const router = useRouter();
@@ -19,8 +22,12 @@ function HomePage(props) {
   };
 
   //make deleteTask query
-  const DeleteTask = (taskId: string) => {
-    console.log("detele " + taskId);
+  const DeleteTask = (taskId: number) => {
+    deleteTask({
+      variables: { deleteTaskId: taskId },
+    });
+    setTask(tasks.filter((task) => task.id !== taskId));
+    console.log("deteled task with id " + taskId);
   };
 
   return (
@@ -34,22 +41,14 @@ function HomePage(props) {
 
 export async function getStaticProps() {
   const { data } = await client.query({
-    query: gql`
-      query list {
-        tasks {
-          id
-          text
-          day
-          reminder
-        }
-      }
-    `,
+    query: GET_ALL_TASKS,
   });
 
   return {
     props: {
       tasks: data.tasks,
     },
+    revalidate: 1
   };
 }
 
