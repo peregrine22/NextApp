@@ -12,18 +12,15 @@ function NewTask() {
   const [taskDay, setTaskDay] = useState('');
   const [taskReminder, setTaskReminder] = useState(false);
 
-  const newTaskMutation = useMutation(ADD_TASK);
-
+  const { newTaskMutation } = useMutation(ADD_TASK);
 
   return (
     <form className="add-form" onSubmit={event => {
       event.preventDefault();
-      addTask({
-        variables: {
-          text: taskText,
-          day: taskDay,
-          reminder: taskReminder
-        }
+      newTaskMutation.mutate({
+        text: taskText,
+        day: taskDay,
+        reminder: taskReminder
       });
       router.push("/");
     }}>

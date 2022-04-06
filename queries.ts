@@ -22,9 +22,9 @@ export async function GetTasks() {
   return tasks;
 }
 
-export async function GeleteTask(taskId: number) {
+export async function DeleteTask(taskId: number) {
   const variables = { deleteTaskId: taskId };
-  const data = await graphQLClient.request(DELETE_TASK, variables);
+  await graphQLClient.request(DELETE_TASK, variables);
 }
 export const DELETE_TASK = gql`
   mutation Mutation($deleteTaskId: String!) {
