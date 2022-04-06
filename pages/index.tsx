@@ -1,4 +1,4 @@
-import { DELETE_TASK, GetTasks, GET_ALL_TASKS, DeleteTask } from '../queries'
+import { GetTasks, DeleteTask } from '../queries'
 import { useRouter } from "next/router";
 import { dehydrate, QueryClient, useMutation, useQuery, useQueryClient } from 'react-query';
 
@@ -9,6 +9,7 @@ import TaskList from "../components/tasks/TaskList";
 
 function HomePage() {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   // const { data } = GetTasks();
   const tasks = useQuery('get-tasks', GetTasks);
@@ -19,7 +20,7 @@ function HomePage() {
     console.log("Click");
     router.push("/new-task");
   };
-  const queryClient = useQueryClient();
+
   //make deleteTask query
   const deleteTaskMutation = useMutation((taskId: number) => DeleteTask(taskId), {
     onSettled: () => {
