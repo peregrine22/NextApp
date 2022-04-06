@@ -1,55 +1,46 @@
-import { useMutation } from "@apollo/client";
-import client from "../apollo-client";
-import { GET_ALL_TASKS, DELETE_TASK } from '../queries'
-
+import { DELETE_TASK, GetTasks, GET_ALL_TASKS } from '../queries'
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { dehydrate, QueryClient, useMutation, useQuery } from 'react-query';
 
 import Button from "../components/layout/Button";
 import Header from "../components/layout/Header";
 import TaskList from "../components/tasks/TaskList";
 
-function HomePage(props) {
 
-  const [tasks, setTask] = useState(props.tasks);
-  const [deleteTask] = useMutation(DELETE_TASK);
-  console.log(tasks);
-
+function HomePage() {
   const router = useRouter();
+
+  // const { data } = GetTasks();
+  const tasks = useQuery('get-tasks', GetTasks);
+
+  console.log('data :>> ', tasks.data);
+
   const goToAddTaskPage = () => {
     console.log("Click");
     router.push("/new-task");
   };
 
   //make deleteTask query
-  const DeleteTask = (taskId: number) => {
-    deleteTask({
-      variables: { deleteTaskId: taskId },
-    });
-    setTask(tasks.filter((task) => task.id !== taskId));
-    console.log("deteled task with id " + taskId);
-  };
+  const deleteTask = useMutation(DELETE_TASK);
 
   return (
     <>
       <Header />
       <Button text={"Add Task"} onClick={goToAddTaskPage} />
-      <TaskList tasks={tasks} onDelete={DeleteTask} />
+      <TaskList tasks={tasks.data} onDelete={DeleteTask} />
     </>
   );
 }
 
 export async function getStaticProps() {
-  const { data } = await client.query({
-    query: GET_ALL_TASKS,
-  });
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery('get-tasks', GetTasks);
 
   return {
     props: {
-      tasks: data.tasks,
+      dehydratedState: dehydrate(queryClient),
     },
-    revalidate: 1
-  };
+  }
 }
 
 export default HomePage;

@@ -1,15 +1,23 @@
+import React from 'react';
 import '../styles/globals.css'
+
+import { ReactQueryDevtools } from 'react-query/devtools'
+
 import type { AppProps } from 'next/app'
-import { ApolloProvider } from '@apollo/client';
-import apolloClient from "../apollo-client"
+import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const [queryClient] = React.useState(() => new QueryClient());
   return (
-    <ApolloProvider client={apolloClient}>
-      <div className='container'>
-        <Component {...pageProps} />
-      </div>
-    </ApolloProvider>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
+      <Hydrate state={pageProps.dehydratedState}>
+        <div className='container'>
+          <Component {...pageProps} />
+        </div>
+      </Hydrate>
+
+    </QueryClientProvider>
 
   );
 }

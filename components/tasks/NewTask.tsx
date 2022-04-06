@@ -1,19 +1,19 @@
-import { useMutation } from "@apollo/client";
+import { useMutation } from 'react-query';
+
 import { ADD_TASK } from '../../queries'
 
 import { useRouter } from "next/router";
 import { useState } from 'react';
 
 function NewTask() {
+  const router = useRouter();
+
   const [taskText, setTaskText] = useState('');
   const [taskDay, setTaskDay] = useState('');
   const [taskReminder, setTaskReminder] = useState(false);
-  const [addTask, { data, loading, error }] = useMutation(ADD_TASK);
 
-  const router = useRouter();
+  const newTaskMutation = useMutation(ADD_TASK);
 
-  if (loading) return 'Loading...';
-  if (error) return `Error ${error.message}`;
 
   return (
     <form className="add-form" onSubmit={event => {
