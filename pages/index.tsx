@@ -21,7 +21,9 @@ function HomePage() {
   };
 
   //make deleteTask query
-  const deleteTask = useMutation(DELETE_TASK);
+  const DeleteTask = (taskId: number) => {
+    console.log('object :>> ', taskId);
+  }
 
   return (
     <>
