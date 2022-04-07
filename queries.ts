@@ -1,8 +1,7 @@
 import { GraphQLClient, gql } from "graphql-request";
-
 import { Task } from "./graphql-types";
 
-const endpoint = "http://localhost:4000/graphql";
+export const endpoint = "http://localhost:4000/graphql";
 const graphQLClient = new GraphQLClient(endpoint);
 
 export async function GetTasks() {
@@ -13,6 +12,11 @@ export async function GetTasks() {
 export async function DeleteTask(taskId: number) {
   const variables = { deleteTaskId: taskId };
   await graphQLClient.request(DELETE_TASK, variables);
+}
+
+export async function CreateTask(taskText: string, taskDay: string, taskReminder: boolean) {
+  const variables = { text: taskText, day: taskDay, reminder: taskReminder };
+  await graphQLClient.request(ADD_TASK, variables);
 }
 
 const DELETE_TASK = gql`

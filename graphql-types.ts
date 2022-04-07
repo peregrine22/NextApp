@@ -22,7 +22,7 @@ export type ListTasksArgs = {
 
 export type Task = {
     __typename?: 'Task';
-    id: Scalars['Int'];
+    id?: Scalars['Int'];
     text: Scalars['String'];
     day: Scalars['String'];
     reminder: Scalars['Boolean'];

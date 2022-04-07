@@ -1,23 +1,29 @@
-import { useMutation } from 'react-query';
-
-import { ADD_TASK } from '../../queries'
+import { useMutation, useQueryClient } from 'react-query';
+import { CreateTask, DeleteTask, endpoint, ADD_TASK } from '../../queries';
 
 import { useRouter } from "next/router";
 import { useState } from 'react';
+import { Task } from '../../graphql-types';
 
 function NewTask() {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const [taskText, setTaskText] = useState('');
   const [taskDay, setTaskDay] = useState('');
   const [taskReminder, setTaskReminder] = useState(false);
 
-  const { newTaskMutation } = useMutation(ADD_TASK);
+  // Mutation Hook
+  const addTask = useMutation(({text, day, reminder}:Task) => CreateTask(text,day,reminder), { 
+    onSettled: () => {
+      queryClient.invalidateQueries("get-tasks");
+    }
+  });
 
   return (
     <form className="add-form" onSubmit={event => {
       event.preventDefault();
-      newTaskMutation.mutate({
+      addTask.mutate({
         text: taskText,
         day: taskDay,
         reminder: taskReminder
