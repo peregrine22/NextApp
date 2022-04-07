@@ -1,6 +1,6 @@
 import TaskItem from "./TaskItem"
 
-function TaskList({ tasks, onDelete }) {
+function TaskList({ tasks, onDelete, onToggle }) {
   return (
     <>
       {
@@ -11,6 +11,7 @@ function TaskList({ tasks, onDelete }) {
             day={task.day}
             reminder={task.reminder}
             onDelete={() => onDelete(task.id)}
+            onToggle={() => onToggle(task.id)}
           />
         ))
       }

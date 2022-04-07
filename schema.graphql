@@ -21,6 +21,6 @@ type AddTaskResult {
 
 type Mutation {
   createTask(text: String, day: String, reminder: Boolean): AddTaskResult
-  updateTask(id: String!, text: String, day: String, reminder: Boolean): Task
+  updateTask(id: Int!, text: String, day: String, reminder: Boolean): Task
   deleteTask(id: String!): String
 }

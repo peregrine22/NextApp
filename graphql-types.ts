@@ -52,7 +52,7 @@ export type MutationCreateTaskArgs = {
 };
 
 export type MutationUpdateTaskArgs = {
-    id: Scalars['String'];
+    id: Scalars['Int'];
     text: Scalars['String'];
     day: Scalars['String'];
     reminder: Scalars['Boolean'];

@@ -1,5 +1,4 @@
 import { GraphQLClient, gql } from "graphql-request";
-import { Task } from "./graphql-types";
 
 export const endpoint = "http://localhost:4000/graphql";
 const graphQLClient = new GraphQLClient(endpoint);
@@ -19,9 +18,29 @@ export async function CreateTask(taskText: string, taskDay: string, taskReminder
   await graphQLClient.request(ADD_TASK, variables);
 }
 
+export async function UpdateTask(taskId:number, taskText:string, taskDay:string, taskReminder:boolean) {
+  const variables = { updateTaskId: taskId, text: taskText, day: taskDay, reminder:taskReminder};
+  await graphQLClient.request(UPDATE_TASK,variables);
+}
+
 const DELETE_TASK = gql`
   mutation Mutation($deleteTaskId: String!) {
     deleteTask(id: $deleteTaskId)
+  }
+`;
+
+const UPDATE_TASK = gql`
+  mutation Mutation(
+    $updateTaskId: Int!
+    $reminder: Boolean
+    $day: String
+    $text: String) {
+    updateTask(id: $updateTaskId, reminder: $reminder, day: $day, text: $text) {
+      id
+      text
+      day
+      reminder
+    }
   }
 `;
 
