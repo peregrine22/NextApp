@@ -1,4 +1,5 @@
 import { GraphQLClient, gql } from "graphql-request";
+import { useQuery } from "react-query";
 
 export const endpoint = "http://localhost:4000/graphql";
 const graphQLClient = new GraphQLClient(endpoint);
@@ -18,9 +19,9 @@ export async function CreateTask(taskText: string, taskDay: string, taskReminder
   await graphQLClient.request(ADD_TASK, variables);
 }
 
-export async function UpdateTask(taskId:number, taskText:string, taskDay:string, taskReminder:boolean) {
-  const variables = { updateTaskId: taskId, text: taskText, day: taskDay, reminder:taskReminder};
-  await graphQLClient.request(UPDATE_TASK,variables);
+export async function UpdateReminderForTask(taskId:number) {
+  const variables = { updateReminderForTaskId: taskId };
+  await graphQLClient.request(UPDATE_REMINDER_FOR_TASK, variables);
 }
 
 const DELETE_TASK = gql`
@@ -29,13 +30,9 @@ const DELETE_TASK = gql`
   }
 `;
 
-const UPDATE_TASK = gql`
-  mutation Mutation(
-    $updateTaskId: Int!
-    $reminder: Boolean
-    $day: String
-    $text: String) {
-    updateTask(id: $updateTaskId, reminder: $reminder, day: $day, text: $text) {
+const UPDATE_REMINDER_FOR_TASK = gql`
+  mutation Mutation($updateReminderForTaskId: String!) {
+    updateReminderForTask(id: $updateReminderForTaskId) {
       id
       text
       day
@@ -47,6 +44,17 @@ const UPDATE_TASK = gql`
 const GET_ALL_TASKS = gql`
   query GetTasks {
     tasks {
+      id
+      text
+      day
+      reminder
+    }
+  }
+`;
+
+const GET_TASK_BY_ID = gql`
+  query Tasks($taskByIdId: Int) {
+    taskByID(id: $taskByIdId) {
       id
       text
       day

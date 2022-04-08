@@ -1,8 +1,9 @@
 import {
   MutationCreateTaskArgs,
-  MutationDeleteTaskArgs,
+  MutationSingleTaskArgs,
   MutationUpdateTaskArgs,
   AddTaskResult,
+  Task,
 } from "./graphql-types";
 
 import todoList from "./db.json";
@@ -10,6 +11,8 @@ import todoList from "./db.json";
 export const resolvers = {
   Query: {
     tasks: () => todoList.tasks,
+    taskByID: (_: any, { id }: Task) =>
+      todoList.tasks.find((task) => task.id === id),
   },
   Mutation: {
     createTask(
@@ -29,7 +32,7 @@ export const resolvers = {
         return { success: false };
       }
     },
-    deleteTask(_: any, { id }: MutationDeleteTaskArgs) {
+    deleteTask(_: any, { id }: MutationSingleTaskArgs) {
       const idx = todoList.tasks.findIndex((i) => i.id.toString() === id);
       if (idx !== -1) {
         todoList.tasks.splice(idx, 1);
@@ -43,6 +46,14 @@ export const resolvers = {
         task.text = text;
         task.day = day;
         task.reminder = reminder;
+        return task;
+      }
+      throw new Error("Id not found");
+    },
+    updateReminderForTask(_: any, { id }: MutationSingleTaskArgs) {
+      const task = todoList.tasks.find((i) => i.id.toString() === id);
+      if (task) {
+        task.reminder = !task.reminder;
         return task;
       }
       throw new Error("Id not found");

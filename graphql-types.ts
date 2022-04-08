@@ -28,21 +28,23 @@ export type Task = {
     reminder: Scalars['Boolean'];
 };
 
-export type AddTaskResult = {
-    success: Scalars['Boolean'];
-    task?: Maybe<Task>;
-}
-
 export type Query = {
     __typename?: 'Query';
     tasks: Array<Task>;
+    task: Task;
+};
+
+export type AddTaskResult = {
+  success: Scalars["Boolean"];
+  task?: Maybe<Task>;
 };
 
 export type Mutation = {
-    __typename?: 'Mutation';
-    createTask: Task;
-    updateTask: Task;
-    deleteTask: Scalars['String'];
+  __typename?: "Mutation";
+  createTask: Task;
+  updateTask: Task;
+  updateReminderForTask: Task;
+  deleteTask: Scalars["String"];
 };
 
 export type MutationCreateTaskArgs = {
@@ -58,6 +60,6 @@ export type MutationUpdateTaskArgs = {
     reminder: Scalars['Boolean'];
 };
 
-export type MutationDeleteTaskArgs = {
+export type MutationSingleTaskArgs = {
     id: Scalars['String'];
 };

@@ -1,4 +1,4 @@
-import { GetTasks, DeleteTask, UpdateTask } from '../queries'
+import { GetTasks, DeleteTask, UpdateReminderForTask } from '../queries'
 import { Task } from '../graphql-types';
 import { useRouter } from "next/router";
 import { dehydrate, QueryClient, useMutation, useQuery, useQueryClient } from 'react-query';
@@ -30,15 +30,17 @@ function HomePage() {
   });
 
   //update mutation
-  const updateMutation = (taskId:number) => {
-    console.log("toggle reminder for task " + taskId);
-  }
+  const updateMutation = useMutation((taskId: number) => UpdateReminderForTask(taskId), {
+    onSettled: (data, variables) => {
+      queryClient.invalidateQueries("get-tasks");
+    }
+  })
 
   return (
     <>
       <Header />
       <Button text={"Add Task"} onClick={goToAddTaskPage} />
-      <TaskList tasks={tasks.data} onDelete={deleteTaskMutation.mutate} onToggle={updateMutation}/>
+      <TaskList tasks={tasks.data} onDelete={deleteTaskMutation.mutate} onToggle={updateMutation.mutate} />
     </>
   );
 }
