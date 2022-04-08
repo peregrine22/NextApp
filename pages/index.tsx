@@ -2,7 +2,6 @@ import { GetTasks, DeleteTask, UpdateReminderForTask } from '../queries'
 import { Task } from '../graphql-types';
 import { useRouter } from "next/router";
 import { dehydrate, QueryClient, useMutation, useQuery, useQueryClient } from 'react-query';
-
 import Button from "../components/layout/Button";
 import Header from "../components/layout/Header";
 import TaskList from "../components/tasks/TaskList";

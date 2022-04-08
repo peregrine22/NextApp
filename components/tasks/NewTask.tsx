@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from 'react-query';
-import { CreateTask, DeleteTask, endpoint, ADD_TASK } from '../../queries';
+import { CreateTask  } from '../../queries';
 
 import { useRouter } from "next/router";
 import { useState } from 'react';
