@@ -16,7 +16,6 @@ function TaskItem(props) {
       </h3>
       <p>{props.day}</p>
       <FaArrowCircleRight onClick={showDetails}/>
-
     </div>
   );
 }

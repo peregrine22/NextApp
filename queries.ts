@@ -19,9 +19,14 @@ export async function CreateTask(taskText: string, taskDay: string, taskReminder
   await graphQLClient.request(ADD_TASK, variables);
 }
 
-export async function UpdateReminderForTask(taskId:number) {
+export async function UpdateReminderForTask(taskId: number) {
   const variables = { updateReminderForTaskId: taskId };
   await graphQLClient.request(UPDATE_REMINDER_FOR_TASK, variables);
+}
+
+export async function UpdateTask(taskId: string, taskText: string, taskDay: string, taskReminder: boolean) {
+  const variables = { updateTaskId: taskId, text:taskText, day: taskDay, reminder:taskReminder};
+  await graphQLClient.request(UPDATE_TASK, variables);
 }
 
 const DELETE_TASK = gql`
@@ -52,17 +57,6 @@ const GET_ALL_TASKS = gql`
   }
 `;
 
-const GET_TASK_BY_ID = gql`
-  query Tasks($taskByIdId: Int) {
-    taskByID(id: $taskByIdId) {
-      id
-      text
-      day
-      reminder
-    }
-  }
-`;
-
 export const ADD_TASK = gql`
   mutation Mutation($text: String, $day: String, $reminder: Boolean) {
     createTask(text: $text, day: $day, reminder: $reminder) {
@@ -72,6 +66,21 @@ export const ADD_TASK = gql`
         day
         reminder
       }
+    }
+  }
+`;
+export const UPDATE_TASK = gql`
+  mutation Mutation(
+    $updateTaskId: String!
+    $text: String
+    $day: String
+    $reminder: Boolean
+  ) {
+    updateTask(id: $updateTaskId, text: $text, day: $day, reminder: $reminder) {
+      id
+      text
+      day
+      reminder
     }
   }
 `;
