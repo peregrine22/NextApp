@@ -22,7 +22,7 @@ export type ListTasksArgs = {
 
 export type Task = {
     __typename?: 'Task';
-    id?: Scalars['Int'];
+    id?: Scalars['String'];
     text: Scalars['String'];
     day: Scalars['String'];
     reminder: Scalars['Boolean'];
@@ -54,7 +54,7 @@ export type MutationCreateTaskArgs = {
 };
 
 export type MutationUpdateTaskArgs = {
-    id: Scalars['Int'];
+    id: Scalars['String'];
     text: Scalars['String'];
     day: Scalars['String'];
     reminder: Scalars['Boolean'];

@@ -7,6 +7,7 @@ function TaskList({ tasks, onDelete, onToggle }) {
         tasks.map((task) => (
           <TaskItem
             key={task.id}
+            id={task.id}
             text={task.text}
             day={task.day}
             reminder={task.reminder}

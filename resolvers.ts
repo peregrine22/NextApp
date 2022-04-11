@@ -21,7 +21,7 @@ export const resolvers = {
     ): AddTaskResult {
       try {
         const task = {
-          id: Math.floor(Math.random() * 10000 + 1),
+          id: Math.floor(Math.random() * 10000 + 1).toString(),
           text,
           day,
           reminder,
@@ -33,7 +33,7 @@ export const resolvers = {
       }
     },
     deleteTask(_: any, { id }: MutationSingleTaskArgs) {
-      const idx = todoList.tasks.findIndex((i) => i.id.toString() === id);
+      const idx = todoList.tasks.findIndex((i) => i.id === id);
       if (idx !== -1) {
         todoList.tasks.splice(idx, 1);
         return `Item ${id} deleted with success`;
@@ -51,7 +51,7 @@ export const resolvers = {
       throw new Error("Id not found");
     },
     updateReminderForTask(_: any, { id }: MutationSingleTaskArgs) {
-      const task = todoList.tasks.find((i) => i.id.toString() === id);
+      const task = todoList.tasks.find((i) => i.id === id);
       if (task) {
         task.reminder = !task.reminder;
         return task;

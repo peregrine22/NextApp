@@ -30,7 +30,7 @@ function HomePage() {
 
   //update mutation
   const updateMutation = useMutation((taskId: number) => UpdateReminderForTask(taskId), {
-    onSettled: (data, variables) => {
+    onSettled: () => {
       queryClient.invalidateQueries("get-tasks");
     }
   })
