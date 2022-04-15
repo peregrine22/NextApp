@@ -1,5 +1,5 @@
 import React from "react";
-import { QueryClient } from "react-query";
+
 import TaskDetail from "../../components/tasks/TaskDetail";
 import { GetTasks } from "../../queries";
 import { Task } from "../../graphql-types";
@@ -52,4 +52,5 @@ export async function getStaticProps(context) {
     },
   };
 }
+
 export default TaskDetails;
